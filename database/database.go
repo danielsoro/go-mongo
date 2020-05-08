@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"sync"
 
 	configuration "github.com/danielsoro/go-mongo/config"
@@ -19,7 +20,26 @@ var (
 // CustomConnect returns a custom connected based in the configuration parameter
 func CustomConnect(c configuration.DatabaseConfiguration) *mongo.Database {
 	once.Do(func() {
-		clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb+srv://%s:%s@%s", c.Username, c.Password, c.Host))
+		uri := fmt.Sprintf("mongodb+srv://%s:%s@%s", c.Username, c.Password, c.Host)
+		firstParam := strings.Contains(uri, "?")
+
+		if len(c.CaFilePath) > 0 {
+			if firstParam {
+				uri = fmt.Sprintf("uri"+"&tlsCAFile=%s", c.CaFilePath)
+			} else {
+				uri = fmt.Sprintf("uri"+"?tlsCAFile=%s", c.CaFilePath)
+			}
+		}
+
+		if len(c.CertificateKeyFilePath) > 0 {
+			if firstParam {
+				uri = fmt.Sprintf("uri"+"&tlsCertificateKeyFile=%s", c.CertificateKeyFilePath)
+			} else {
+				uri = fmt.Sprintf("uri"+"?tlsCertificateKeyFile=%s", c.CertificateKeyFilePath)
+			}
+		}
+
+		clientOptions := options.Client().ApplyURI(uri)
 		client, err := mongo.Connect(context.TODO(), clientOptions)
 		if err != nil {
 			panic(fmt.Errorf("connection issue: %v", err))
