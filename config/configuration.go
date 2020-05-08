@@ -13,7 +13,7 @@ type Configuration struct {
 }
 
 // GetConfiguation return the application's configuration
-func (c Configuration) GetConfiguation() Configuration {
+func GetConfiguation() Configuration {
 
 	// Get the configuration from confi.yaml file
 	viper.SetConfigName("config")
