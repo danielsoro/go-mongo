@@ -12,9 +12,8 @@ type Configuration struct {
 	Database DatabaseConfiguration
 }
 
-// GetConfiguation return the application's configuration
-func GetConfiguation() Configuration {
-
+// GetConfiguration return the application's configuration.
+func GetConfiguration() Configuration {
 	// Get the configuration from confi.yaml file
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")

@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	config := configuration.GetConfiguation()
+	config := configuration.GetConfiguration()
 
 	// Connect to the mongodb database with config properties
 	mongoDB := database.Connect(config.Database)

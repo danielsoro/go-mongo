@@ -1,4 +1,4 @@
 Database:
-  Host: <myhost>
-  Username: <myuser>
-  Password: <mypassword>
+  Host: go-mongo-zpydk.gcp.mongodb.net/test?retryWrites=true&w=majority
+  Username: adm
+  Password: Tauan#2206
