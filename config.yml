@@ -1,5 +1,5 @@
 Database:
-  Host: go-mongo-zpydk.gcp.mongodb.net/test?retryWrites=true&w=majority
-  Namespace: zedoido
-  Username: adm
-  Password: Tauan#2206
+  Host: <host>
+  Namespace: <namespace>
+  Username: <username>
+  Password: <password>
