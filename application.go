@@ -3,22 +3,20 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 
-	configuration "github.com/danielsoro/go-mongo/config"
 	"github.com/danielsoro/go-mongo/database"
+	"github.com/danielsoro/go-mongo/models"
+	"github.com/danielsoro/go-mongo/repository"
 )
 
 func main() {
-	config := configuration.GetConfiguration()
+	connect := database.Connect()
+	connect.Client().Ping(context.TODO(), nil)
+	fmt.Println("MongoDB Connected")
 
-	// Connect to the mongodb database with config properties
-	mongoDB := database.Connect(config.Database)
+	id := repository.TesteRepository{}.Insert(models.Teste{
+		Value: "Aloha2",
+	})
 
-	// Test connection
-	if err := mongoDB.Client().Ping(context.TODO(), nil); err != nil {
-		log.Fatalf("connection error: %v", err)
-	}
-
-	fmt.Println("Connected to MongoDB!")
+	repository.TesteRepository{}.Remove(id.Hex())
 }

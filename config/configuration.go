@@ -29,3 +29,8 @@ func GetConfiguration() Configuration {
 
 	return config
 }
+
+// GetDatabaseConfiguration returns only the configuration for Database
+func GetDatabaseConfiguration() DatabaseConfiguration {
+	return GetConfiguration().Database
+}

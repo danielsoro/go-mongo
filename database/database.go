@@ -17,14 +17,15 @@ var (
 )
 
 // Connect returns a connection with mongodb
-func Connect(config configuration.DatabaseConfiguration) *mongo.Database {
+func Connect() *mongo.Database {
 	once.Do(func() {
+		config := configuration.GetDatabaseConfiguration()
 		clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb+srv://%s:%s@%s", config.Username, config.Password, config.Host))
 		client, err := mongo.Connect(context.TODO(), clientOptions)
 		if err != nil {
-			panic(fmt.Errorf("Conection issue: %v", err))
+			panic(fmt.Errorf("connection issue: %v", err))
 		}
-		instance = client.Database("test")
+		instance = client.Database(config.Namespace)
 	})
 	return instance
 }
