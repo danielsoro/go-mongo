@@ -16,18 +16,23 @@ var (
 	instance *mongo.Database
 )
 
-// Connect returns a connection with mongodb
-func Connect() *mongo.Database {
+// CustomConnect returns a custom connected based in the configuration parameter
+func CustomConnect(c configuration.DatabaseConfiguration) *mongo.Database {
 	once.Do(func() {
-		config := configuration.GetDatabaseConfiguration()
-		clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb+srv://%s:%s@%s", config.Username, config.Password, config.Host))
+		clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb+srv://%s:%s@%s", c.Username, c.Password, c.Host))
 		client, err := mongo.Connect(context.TODO(), clientOptions)
 		if err != nil {
 			panic(fmt.Errorf("connection issue: %v", err))
 		}
-		instance = client.Database(config.Namespace)
+		instance = client.Database(c.Namespace)
 	})
 	return instance
+}
+
+// Connect returns a connection with mongodb read default configuration from config.yml
+func Connect() *mongo.Database {
+	config := configuration.GetDatabaseConfiguration()
+	return CustomConnect(config)
 }
 
 // Close all connection from the client
