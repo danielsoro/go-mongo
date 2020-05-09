@@ -10,6 +10,7 @@ var config Configuration
 
 type Configuration struct {
 	Database DatabaseConfiguration
+	Crypto   CryptoConfiguration
 }
 
 // GetConfiguration return the application's configuration.
@@ -33,4 +34,9 @@ func GetConfiguration() Configuration {
 // GetDatabaseConfiguration returns only the configuration for Database
 func GetDatabaseConfiguration() DatabaseConfiguration {
 	return GetConfiguration().Database
+}
+
+// GetCryptoConfiguration returns only the configuration for Crypto
+func GetCryptoConfiguration() CryptoConfiguration {
+	return GetConfiguration().Crypto
 }

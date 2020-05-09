@@ -1,5 +1,8 @@
 Database:
-  Host: <host>
-  Namespace: <namespace>
-  Username: <username>
-  Password: <password>
+  Host: go-mongo-zpydk.gcp.mongodb.net/test?retryWrites=true&w=majority
+  Namespace: zedoido
+  Username: adm
+  Password: 47c6596c679e236aa7fb8822c8583035e89440c19ec166380c314d5bb9599e0ff99eb75c
+
+Crypto:
+  Key: /Users/dcunha/.ssh/my.key

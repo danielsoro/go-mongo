@@ -7,6 +7,8 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/danielsoro/go-mongo/crypto"
+
 	configuration "github.com/danielsoro/go-mongo/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -17,11 +19,16 @@ var (
 	instance *mongo.Database
 )
 
+func _isFirstParam(uri string) bool {
+	return strings.Contains(uri, "?")
+}
+
 // CustomConnect returns a custom connected based in the configuration parameter
 func CustomConnect(c configuration.DatabaseConfiguration) *mongo.Database {
 	once.Do(func() {
-		uri := fmt.Sprintf("mongodb+srv://%s:%s@%s", c.Username, c.Password, c.Host)
-		firstParam := strings.Contains(uri, "?")
+		password, _ := crypto.Decrypt(c.Password)
+		uri := fmt.Sprintf("mongodb+srv://%s:%s@%s", c.Username, password, c.Host)
+		firstParam := _isFirstParam(uri)
 
 		if len(c.CaFilePath) > 0 {
 			if firstParam {
@@ -31,6 +38,7 @@ func CustomConnect(c configuration.DatabaseConfiguration) *mongo.Database {
 			}
 		}
 
+		firstParam = _isFirstParam(uri)
 		if len(c.CertificateKeyFilePath) > 0 {
 			if firstParam {
 				uri = fmt.Sprintf("uri"+"&tlsCertificateKeyFile=%s", c.CertificateKeyFilePath)
