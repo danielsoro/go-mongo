@@ -8,6 +8,7 @@ import (
 
 var config Configuration
 
+// Configuration represets the config.yml file
 type Configuration struct {
 	Database DatabaseConfiguration
 	Crypto   CryptoConfiguration

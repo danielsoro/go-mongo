@@ -49,6 +49,7 @@ func _createCipher() (cipher.AEAD, error) {
 	return gcm, nil
 }
 
+// Encrypt string to AES formater with HEX return
 func Encrypt(s string) (string, error) {
 	aesgcm, err := _createCipher()
 	if err != nil {
@@ -65,6 +66,7 @@ func Encrypt(s string) (string, error) {
 	return encodedString, nil
 }
 
+// Decrypt string from AES formater with HEX
 func Decrypt(s string) (string, error) {
 	decodeString, err := hex.DecodeString(s)
 	if err != nil {
