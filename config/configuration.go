@@ -19,6 +19,7 @@ func GetConfiguration() Configuration {
 	// Get the configuration from confi.yaml file
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
+	viper.AutomaticEnv()
 
 	err := viper.ReadInConfig()
 	if err != nil {
