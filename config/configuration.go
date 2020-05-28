@@ -2,6 +2,7 @@ package configuration
 
 import (
 	"log"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -15,10 +16,15 @@ type Configuration struct {
 }
 
 // GetConfiguration return the application's configuration.
-func GetConfiguration() Configuration {
+func GetConfiguration(path string) Configuration {
 	// Get the configuration from confi.yaml file
 	viper.SetConfigName("config")
-	viper.AddConfigPath(".")
+
+	viper.AddConfigPath(path)
+	if len(strings.TrimSpace(path)) > 0 {
+		viper.AddConfigPath(path)
+	}
+
 	viper.AutomaticEnv()
 
 	err := viper.ReadInConfig()
@@ -35,10 +41,10 @@ func GetConfiguration() Configuration {
 
 // GetDatabaseConfiguration returns only the configuration for Database
 func GetDatabaseConfiguration() DatabaseConfiguration {
-	return GetConfiguration().Database
+	return GetConfiguration("").Database
 }
 
 // GetCryptoConfiguration returns only the configuration for Crypto
 func GetCryptoConfiguration() CryptoConfiguration {
-	return GetConfiguration().Crypto
+	return GetConfiguration("").Crypto
 }
